@@ -2,7 +2,7 @@ const models = require("../models/index");
 //show all
 exports.index = async (req, res) => {
   const Foods = await models.Food.findAll({
-    attributes: ["id", "name", ["shop_name", "nameShop"]],
+    attributes: [ "name"],
     include: [   // join
       {
         model: models.Group,
@@ -18,6 +18,42 @@ exports.index = async (req, res) => {
   res.status(200).json({
     data: Foods,
   });
+};
+
+//insert
+exports.insert = async (req, res) => {
+  try {
+    const { name, detail, shop_name } = req.body;
+
+    const existFoodname = await models.Food.findOne({ where: { name: name } });
+    if (existFoodname) {
+      const error = new Error(
+        "รายการอาหารนี้มีในระบบอยู่แล้ว กรุณาเพิ่มรายการอาหารใหม่"
+      );
+      error.statusCode = 404;
+      throw error; // to catch => error
+    }
+
+    const food = await models.Food.create({
+      name: name,
+      detail: detail,
+      shop_name: shop_name,
+    });
+
+    res.status(201).json({
+      message: "เพิ่มรายการอาหารเรียบร้อยแล้ว",
+      data: {
+        name: food.name,
+        detail: food.detail,
+      },
+    });
+  } catch (error) {
+    res.status(error.statusCode).json({
+      error: {
+        message: error.message,
+      },
+    });
+  }
 };
 
 //show one
@@ -106,38 +142,4 @@ exports.update = async (req, res) => {
   }
 };
 
-//insert
-exports.insert = async (req, res) => {
-  try {
-    const { name, detail, shop_name } = req.body;
-
-    const existFoodname = await models.Food.findOne({ where: { name: name } });
-    if (existFoodname) {
-      const error = new Error(
-        "รายการอาหารนี้มีในระบบอยู่แล้ว กรุณาเพิ่มรายการอาหารใหม่"
-      );
-      error.statusCode = 404;
-      throw error; // to catch => error
-    }
-
-    const food = await models.Food.create({
-      name: name,
-      detail: detail,
-      shop_name: shop_name,
-    });
-
-    res.status(201).json({
-      message: "เพิ่มรายการอาหารเรียบร้อยแล้ว",
-      data: {
-        name: food.name,
-        detail: food.detail,
-      },
-    });
-  } catch (error) {
-    res.status(error.statusCode).json({
-      error: {
-        message: error.message,
-      },
-    });
-  }
-};
+ 
