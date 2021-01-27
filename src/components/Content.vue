@@ -123,7 +123,9 @@ export default {
         this.snackbar = true;
       }
     },
-    saveData() { 
+    saveData() {
+      console.log(`http:${process.env.VUE_APP_API_PATH}/api/`)
+      
       axios
         .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, { 
           name: this.dlNamefood ,
@@ -159,16 +161,7 @@ export default {
       ],
       data: [],
     };
-  },mounted(){
-     axios
-        .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
-        .then((response) => {
-          console.log(response.data.data);
-       
-          this.data.push(response.data.data);
-        });
-
-  }
+  },
 };
 </script>
 
