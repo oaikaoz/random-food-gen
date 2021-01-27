@@ -65,7 +65,7 @@
                     label="name menu"
                     required
                     outlined
-                      shaped
+                    shaped
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -73,11 +73,11 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            
+
             <v-btn color="blue darken-1" text @click="saveData">
               Save
             </v-btn>
-             <v-btn color="blue darken-1" text @click="showDialog = false">
+            <v-btn color="blue darken-1" text @click="showDialog = false">
               Close
             </v-btn>
           </v-card-actions>
@@ -103,6 +103,7 @@
   </v-app>
 </template>
 <script>
+import axios from "axios";
 export default {
   methods: {
     setData() {
@@ -122,10 +123,19 @@ export default {
         this.snackbar = true;
       }
     },
-    saveData() {
-      this.data.push({
-        name: this.dlNamefood,
-      });
+    saveData() { 
+      axios
+        .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, { 
+          name: this.dlNamefood ,
+          detail : "",
+          shop_name : ""
+        })
+        .then((response) => {
+          this.data.push({
+            name: response.data.name,
+          });
+        });
+
       this.dlNamefood = "";
       this.showDialog = false;
     },
@@ -149,7 +159,16 @@ export default {
       ],
       data: [],
     };
-  },
+  },mounted(){
+     axios
+        .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
+        .then((response) => {
+          console.log(response.data.data);
+       
+          this.data.push(response.data.data);
+        });
+
+  }
 };
 </script>
 
