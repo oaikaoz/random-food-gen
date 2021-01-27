@@ -17,11 +17,13 @@
       <v-menu left bottom> </v-menu>
     </v-app-bar>
     <v-container fluid fill-height>
-      <v-row dense>
+      <v-row dense> 
         <v-col cols="12" sm="6">
           <v-layout align-center justify-center>
+            
             <v-card dark elevation="5" color="#333333" :class="classShake">
               <v-layout>
+               
                 <v-card-text class="text-xl-h4">
                   {{ randomText }}
                 </v-card-text>
@@ -123,9 +125,7 @@ export default {
         this.snackbar = true;
       }
     },
-    saveData() {
-      console.log(`http:${process.env.VUE_APP_API_PATH}/api/`)
-      
+    saveData() { 
       axios
         .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, { 
           name: this.dlNamefood ,
@@ -133,9 +133,12 @@ export default {
           shop_name : ""
         })
         .then((response) => {
+          
           this.data.push({
-            name: response.data.name,
+            name: response.data.data.name,
           });
+        }).catch(err => {
+          console.error(err)
         });
 
       this.dlNamefood = "";
@@ -161,7 +164,15 @@ export default {
       ],
       data: [],
     };
-  },
+  },mounted(){
+     axios.get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`).then((response)=>{
+       console.log(response.data.data);
+        // this.data.push(response.data.data);
+        for(var i = 0;i<response.data.data.length;i++) { 
+         this.data.push({name:response.data.data[i].name});
+        }
+     });
+  }
 };
 </script>
 
