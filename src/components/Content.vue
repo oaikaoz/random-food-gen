@@ -160,7 +160,7 @@ export default {
       axios
         .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
         .then((response) => {
-          console.log(response);
+         
           for (var i = 0; i < response.data.data.length; i++) {
             this.data.push(response.data.data[i]);
           }
@@ -196,8 +196,8 @@ export default {
              
           }
         )
-        .then((response) => {
-          console.log(response)
+        .then(() => {
+          this.editDialog = false
           this.loadData();
         });
     },
