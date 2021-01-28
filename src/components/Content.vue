@@ -77,10 +77,43 @@
             <v-spacer></v-spacer>
 
             <v-btn color="blue darken-1" text @click="saveData">
-              Save
+              บันทึก
             </v-btn>
             <v-btn color="blue darken-1" text @click="showDialog = false">
-              Close
+              ปิด
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+
+        <v-dialog v-model="editDialog" persistent max-width="600px">
+        <v-card>
+          <v-card-title>
+            <span class="headline">edit menu</span>
+          </v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12" sm="6" md="12">
+                  <v-text-field
+                    v-model="dlNamefood"
+                    label="name menu"
+                    required
+                    outlined
+                    shaped
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn color="blue darken-1" text @click="saveData">
+              บันทึก
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="showDialog = false">
+              ลบ
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -149,6 +182,7 @@ export default {
     return {
       dlNamefood: "",
       showDialog: false,
+      editDialog: false,
       rmMin: 0,
       rmMax: 3,
       timeRandom: 20,
