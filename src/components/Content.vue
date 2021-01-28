@@ -17,13 +17,11 @@
       <v-menu left bottom> </v-menu>
     </v-app-bar>
     <v-container fluid fill-height>
-      <v-row dense> 
+      <v-row dense>
         <v-col cols="12" sm="6">
           <v-layout align-center justify-center>
-            
             <v-card dark elevation="5" color="#333333" :class="classShake">
               <v-layout>
-               
                 <v-card-text class="text-xl-h4">
                   {{ randomText }}
                 </v-card-text>
@@ -46,6 +44,21 @@
                 <div class="text-caption" height="50vh">
                   ไม่มีข้อมูล
                 </div>
+              </template>
+              <template v-slot:item="{ item }">
+                <tr>
+                  <td width="70%">{{ item.name }}</td>
+
+                  <td>
+                    <v-icon class="mr-2" @click="editShowDialog(item)">
+                      mdi-comment-edit
+                    </v-icon>
+                    <span class="ma-1"></span>
+                    <v-icon @click="delData(item)"
+                      >mdi-delete-alert-outline</v-icon
+                    >
+                  </td>
+                </tr>
               </template>
             </v-data-table>
           </v-card>
@@ -86,17 +99,17 @@
         </v-card>
       </v-dialog>
 
-        <v-dialog v-model="editDialog" persistent max-width="600px">
+      <v-dialog v-model="editDialog" persistent max-width="600px">
         <v-card>
           <v-card-title>
-            <span class="headline">edit menu</span>
+            <span class="headline">Edit menu</span>
           </v-card-title>
           <v-card-text>
             <v-container>
               <v-row>
                 <v-col cols="12" sm="6" md="12">
                   <v-text-field
-                    v-model="dlNamefood"
+                    v-model="tempData.name"
                     label="name menu"
                     required
                     outlined
@@ -109,11 +122,11 @@
           <v-card-actions>
             <v-spacer></v-spacer>
 
-            <v-btn color="blue darken-1" text @click="saveData">
+            <v-btn color="blue darken-1" text @click="editData">
               บันทึก
             </v-btn>
-            <v-btn color="blue darken-1" text @click="showDialog = false">
-              ลบ
+            <v-btn color="blue darken-1" text @click="editDialog = false">
+              ปิด
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -140,7 +153,19 @@
 <script>
 import axios from "axios";
 export default {
+  components: {},
   methods: {
+    loadData() {
+      this.data = [];
+      axios
+        .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
+        .then((response) => {
+          console.log(response);
+          for (var i = 0; i < response.data.data.length; i++) {
+            this.data.push(response.data.data[i]);
+          }
+        });
+    },
     setData() {
       this.randomText = this.data[
         Math.floor(Math.random() * this.data.length) + this.rmMin
@@ -158,24 +183,54 @@ export default {
         this.snackbar = true;
       }
     },
-    saveData() { 
+    editData() {
+  
       axios
-        .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, { 
-          name: this.dlNamefood ,
-          detail : "",
-          shop_name : ""
+        .put(
+          `http://${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`,
+          {
+             id: this.tempData.id,
+            name: this.tempData.name,
+            detail: "",
+            shop_name: "",
+             
+          }
+        )
+        .then((response) => {
+          console.log(response)
+          this.loadData();
+        });
+    },
+    saveData() {
+      axios
+        .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, {
+          name: this.dlNamefood,
+          detail: "",
+          shop_name: "",
         })
         .then((response) => {
-          
           this.data.push({
             name: response.data.data.name,
           });
-        }).catch(err => {
-          console.error(err)
+        })
+        .catch((err) => {
+          console.error(err);
         });
 
       this.dlNamefood = "";
       this.showDialog = false;
+    },
+    editShowDialog(item) {
+      this.editDialog = true;
+      this.tempData = item;
+      console.log(item);
+    },
+    delData(item) {
+      axios
+        .delete(`http://${process.env.VUE_APP_API_PATH}/api/foods/${item.id}`)
+        .then(() => {
+          this.loadData();
+        });
     },
   },
   data() {
@@ -197,16 +252,12 @@ export default {
         },
       ],
       data: [],
+      tempData: [],
     };
-  },mounted(){
-     axios.get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`).then((response)=>{
-       console.log(response.data.data);
-        // this.data.push(response.data.data);
-        for(var i = 0;i<response.data.data.length;i++) { 
-         this.data.push({name:response.data.data[i].name});
-        }
-     });
-  }
+  },
+  mounted() {
+    this.loadData();
+  },
 };
 </script>
 

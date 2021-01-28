@@ -115,7 +115,7 @@ exports.update = async (req, res) => {
   try {
     const { id, name, detail, shop_name } = req.body;
 
-    if (req.params.id !== id) {
+    if (req.params.id != id) {
       const error = new Error("รหัสผู้ใช้ไม่ถูกต้อง");
       error.statusCode = 400;
       throw error; // to catch => error
