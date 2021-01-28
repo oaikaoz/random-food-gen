@@ -2,7 +2,7 @@ const models = require("../models/index");
 //show all
 exports.index = async (req, res) => {
   const Foods = await models.Food.findAll({
-    attributes: [ "name"],
+    attributes: [ "id","name"],
     // include: [   // join
     //   {
     //     model: models.Group,
