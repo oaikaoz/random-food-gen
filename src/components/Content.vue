@@ -32,6 +32,7 @@
         <v-col cols="12" sm="6">
           <v-card>
             <v-data-table
+               ref="_table"
               :headers="headers"
               :items="data"
               hide-default-header
@@ -164,6 +165,7 @@ export default {
           for (var i = 0; i < response.data.data.length; i++) {
             this.data.push(response.data.data[i]);
           }
+           this.$refs._table();
         });
     },
     setData() {
