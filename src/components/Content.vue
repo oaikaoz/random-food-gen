@@ -32,7 +32,6 @@
         <v-col cols="12" sm="6">
           <v-card>
             <v-data-table
-               ref="_table"
               :headers="headers"
               :items="data"
               hide-default-header
@@ -148,6 +147,9 @@
           </v-btn>
         </template>
       </v-snackbar>
+      <v-snackbar v-model="sbError" timeout="1000" color="red">
+        {{ msgError }}
+      </v-snackbar>
     </v-row>
   </v-app>
 </template>
@@ -157,15 +159,10 @@ export default {
   components: {},
   methods: {
     loadData() {
-      this.data = [];
       axios
         .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
         .then((response) => {
-         
-          for (var i = 0; i < response.data.data.length; i++) {
-            this.data.push(response.data.data[i]);
-          }
-           this.$refs._table();
+          this.data = response.data.data;
         });
     },
     setData() {
@@ -186,21 +183,23 @@ export default {
       }
     },
     editData() {
-  
       axios
         .put(
           `http://${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`,
           {
-             id: this.tempData.id,
+            id: this.tempData.id,
             name: this.tempData.name,
             detail: "",
             shop_name: "",
-             
           }
         )
         .then(() => {
-          this.editDialog = false
+          this.editDialog = false;
           this.loadData();
+        })
+        .catch((err) => {
+          this.sbError = true;
+          this.msgError = err.response.data.error.message;
         });
     },
     saveData() {
@@ -210,13 +209,12 @@ export default {
           detail: "",
           shop_name: "",
         })
-        .then((response) => {
-          this.data.push({
-            name: response.data.data.name,
-          });
+        .then(() => {
+          this.loadData();
         })
         .catch((err) => {
-          console.error(err);
+          this.sbError = true;
+          this.msgError = err.response.data.error.message;
         });
 
       this.dlNamefood = "";
@@ -237,6 +235,8 @@ export default {
   },
   data() {
     return {
+      msgError: "",
+      sbError: false,
       dlNamefood: "",
       showDialog: false,
       editDialog: false,
