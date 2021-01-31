@@ -160,7 +160,7 @@ export default {
   methods: {
     loadData() {
       httpClient
-        .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
+        .get(`${process.env.VUE_APP_API_PATH}/api/foods/`)
         .then((response) => {
           this.data = response.data.data;
         });
@@ -185,7 +185,7 @@ export default {
     editData() {
       httpClient
         .put(
-          `http://${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`,
+          `${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`,
           {
             id: this.tempData.id,
             name: this.tempData.name,
@@ -204,7 +204,7 @@ export default {
     },
     saveData() {
       httpClient
-        .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, {
+        .post(`${process.env.VUE_APP_API_PATH}/api/foods/`, {
           name: this.dlNamefood,
           detail: "",
           shop_name: "",
@@ -227,7 +227,7 @@ export default {
     },
     delData(item) {
       httpClient
-        .delete(`http://${process.env.VUE_APP_API_PATH}/api/foods/${item.id}`)
+        .delete(`${process.env.VUE_APP_API_PATH}/api/foods/${item.id}`)
         .then(() => {
           this.loadData();
         })
