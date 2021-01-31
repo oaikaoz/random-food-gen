@@ -154,12 +154,12 @@
   </v-app>
 </template>
 <script>
-import axios from "axios";
+import { httpClient } from '@/services/httpClient'
 export default {
   components: {},
   methods: {
     loadData() {
-      axios
+      httpClient
         .get(`http://${process.env.VUE_APP_API_PATH}/api/foods/`)
         .then((response) => {
           this.data = response.data.data;
@@ -183,7 +183,7 @@ export default {
       }
     },
     editData() {
-      axios
+      httpClient
         .put(
           `http://${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`,
           {
@@ -203,7 +203,7 @@ export default {
         });
     },
     saveData() {
-      axios
+      httpClient
         .post(`http://${process.env.VUE_APP_API_PATH}/api/foods/`, {
           name: this.dlNamefood,
           detail: "",
@@ -226,10 +226,13 @@ export default {
       console.log(item);
     },
     delData(item) {
-      axios
+      httpClient
         .delete(`http://${process.env.VUE_APP_API_PATH}/api/foods/${item.id}`)
         .then(() => {
           this.loadData();
+        }).catch((err) => {
+          this.sbError = true;
+          this.msgError = err.response.data.error.message;
         });
     },
   },
