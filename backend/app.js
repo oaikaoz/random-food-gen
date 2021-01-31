@@ -16,5 +16,9 @@ app.use(cookieParser());
  
  
 app.use('/api/foods',foodRouter);
-
+app.use('*',(req,res)=>{
+    res.status(200).json({
+        message : "404"
+      });
+});
 module.exports = app;
