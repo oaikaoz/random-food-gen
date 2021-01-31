@@ -154,7 +154,7 @@
   </v-app>
 </template>
 <script>
-import { httpClient } from '@/services/httpClient'
+import { httpClient } from "@/services/httpClient";
 export default {
   components: {},
   methods: {
@@ -230,7 +230,8 @@ export default {
         .delete(`http://${process.env.VUE_APP_API_PATH}/api/foods/${item.id}`)
         .then(() => {
           this.loadData();
-        }).catch((err) => {
+        })
+        .catch((err) => {
           this.sbError = true;
           this.msgError = err.response.data.error.message;
         });
