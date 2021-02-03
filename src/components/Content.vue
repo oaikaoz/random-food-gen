@@ -1,13 +1,11 @@
 <template>
   <v-app>
     <v-app-bar color=" accent-4" dense dark>
-      <v-toolbar-title>Random Food</v-toolbar-title>
-
+      <v-toolbar-title>Random Food</v-toolbar-title> 
       <v-spacer></v-spacer>
       <v-btn icon @click="showDialog = true">
         <v-icon>mdi-plus</v-icon>
-      </v-btn>
-
+      </v-btn> 
       <v-btn rounded @click="randomData">
         <v-icon left>
           mdi-reload
@@ -87,8 +85,7 @@
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer>
-
+            <v-spacer></v-spacer> 
             <v-btn color="blue darken-1" text @click="saveData">
               บันทึก
             </v-btn>
