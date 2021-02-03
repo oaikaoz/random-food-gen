@@ -3,15 +3,15 @@ const models = require("../models/index");
 exports.index = async (req, res) => {
   const Foods = await models.Food.findAll({
     attributes: [ "id","name"],
-    // include: [   // join
-    //   {
-    //     model: models.Group,
-    //     as: "group",
-    //     attributes: ["name", "detail"],
+    include: [   // join
+      {
+        model: models.Group,
+        as: "group",
+        attributes: ["name", "detail"],
         
-    //   },
-    // ]
-    // ,
+      },
+    ]
+    ,
 
     order: [["name", "desc"]],
   });

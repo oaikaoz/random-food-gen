@@ -12,16 +12,14 @@
 import Hearder from "@/components/Header";
 
 export default {
-  name: "App",
-
+  name: "App", 
   components: {
     Hearder,
   },
 };
 </script>
-<style>
+<style> 
 @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap");
-
 * {
   font-family: "Kanit", sans-serif;
 }
