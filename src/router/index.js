@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Content from '@/components/Content'
 import Notfound from '@/components/Notfound'
-import Notfound from '@/components/Bitcoin'
+import Coin from '@/components/Coin'
 
 
 Vue.use(VueRouter)
@@ -15,8 +15,8 @@ const routes = [
   },
   {
     path: '/coin',
-    name: 'Bitcoin',
-    component: Bitcoin
+    name: 'Coin',
+    component: Coin
   },
   {
     path: '*',
