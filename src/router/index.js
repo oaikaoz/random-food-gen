@@ -10,13 +10,13 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Content',
-    component: Content
+    name: 'Coin',
+    component: Coin
   },
   {
     path: '/coin',
-    name: 'Coin',
-    component: Coin
+    name: 'Content',
+    component: Content
   },
   {
     path: '*',
