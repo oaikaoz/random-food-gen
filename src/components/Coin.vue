@@ -55,7 +55,7 @@ export default {
     };
   },
   mounted(){
-//    this.getPriceCoin();
+   this.getPriceCoin();
   },
   methods: {
 

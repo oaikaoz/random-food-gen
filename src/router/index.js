@@ -10,19 +10,24 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Coin',
-    component: Coin
-  },
-  {
-    path: '/coin',
     name: 'Content',
     component: Content
   },
   {
-    path: '*',
+    path: '/coin',
+    name: 'Coin',
+    component: Coin
+  },
+  {
+    path: '/notfound',
     name: '404',
     component: Notfound
-  }
+  },
+  {
+    path: '*',
+    redirect: "/notfound", 
+  },
+  
 ]
 
 const router = new VueRouter({
