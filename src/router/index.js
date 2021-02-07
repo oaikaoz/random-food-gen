@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Content from '@/components/Content'
-import Notfound from '@/components/Notfound'
-import Coin from '@/components/Coin'
+import Content from '@/view/Content'
+import Notfound from '@/view/Notfound'
+import Coin from '@/view/Coin'
 
 
 Vue.use(VueRouter)
