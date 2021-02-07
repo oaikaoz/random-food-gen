@@ -30,7 +30,7 @@ export default {
       {
         text: "randomFood",
         disabled: false,
-        href: "random_food",
+        href: "/random_food",
       },
     ],
   }),

@@ -3,10 +3,9 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import vuetify from './plugins/vuetify';
-import 'csshake/dist/csshake.css'
-
+import 'csshake/dist/csshake.css' 
 Vue.config.productionTip = false
-
+ 
 new Vue({
   router,
   vuetify,

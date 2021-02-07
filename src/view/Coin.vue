@@ -1,5 +1,6 @@
 <template>
   <div>
+     <vue-topprogress ref="topProgress"></vue-topprogress>
     <v-card class="mx-auto mt-3" max-width="344" outlined>
       <v-list-item three-line>
         <v-list-item-content>
@@ -42,7 +43,9 @@
 import moment from "moment";
 import axios from "axios";
 import calCoin from "@/functions/calProfit"
+import { vueTopprogress } from 'vue-top-progress'
 export default {
+ 
   data() {
     return {
       DOGE: {
@@ -68,11 +71,13 @@ export default {
       },
     };
   },
+  components: {vueTopprogress},
   mounted() {
     this.getPriceCoin();
   },
   methods: { 
     getPriceCoin() {
+      this.$refs.topProgress.start()
       axios
         .all([
           axios.get("https://api.bitkub.com/api/market/ticker", {
@@ -112,8 +117,8 @@ export default {
             this.BTC.timeupdate = moment().format("D/M/YYYY, h:mm:ss");
             this.DOGE.timeupdate = moment().format("D/M/YYYY, h:mm:ss");
             
-             this.DOGE.calProfit = calCoin(this.DOGE.satang.price,this.DOGE.bitkub.price)
-             console.log(calCoin(this.DOGE.satang.price,this.DOGE.bitkub.price))
+            this.DOGE.calProfit = calCoin(this.DOGE.satang.price,this.DOGE.bitkub.price)
+            this.$refs.topProgress.done() 
             // loop call api 
             setTimeout(() => this.getPriceCoin(), 5000);
           })

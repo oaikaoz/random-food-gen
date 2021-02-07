@@ -1,5 +1,7 @@
 <template>
   <v-app>
+    
+    <vue-topprogress ref="topProgress"></vue-topprogress>
     <v-app-bar color=" accent-4" dense dark>
       <v-toolbar-title>Random Food</v-toolbar-title> 
       <v-spacer></v-spacer>
@@ -14,6 +16,7 @@
       </v-btn>
       <v-menu left bottom> </v-menu>
     </v-app-bar>
+       
     <v-container fluid fill-height>
       <v-row dense>
         <v-col cols="12" sm="6">
@@ -62,7 +65,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> 
     <v-row justify="center">
       <v-dialog v-model="showDialog" persistent max-width="600px">
         <v-card>
@@ -152,15 +155,18 @@
 </template>
 <script>
 import { httpClient } from "@/services/httpClient";
- 
+import { vueTopprogress } from 'vue-top-progress'
+
 export default {
-  components: {},
+  components: {vueTopprogress},
   methods: {
     loadData() {
+      this.$refs.topProgress.start()
       httpClient
         .get(`${process.env.VUE_APP_API_PATH}/api/foods/`)
         .then((response) => {
           this.data = response.data.data;
+            this.$refs.topProgress.done()
         });
     },
     setData() {
@@ -259,7 +265,7 @@ export default {
       tempData: [],
     };
   },
-  mounted() {
+  mounted() { 
     this.loadData();
   },
 };
