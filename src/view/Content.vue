@@ -1,62 +1,73 @@
 <template>
-  <v-app>
-    
+  <v-app class="vapp " fluid fill-height   >  
     <vue-topprogress ref="topProgress"></vue-topprogress>
-    <v-app-bar color=" accent-4" dense dark>
-      <v-toolbar-title>Random Food</v-toolbar-title> 
+    <v-app-bar color="accent-4" >
+      <v-icon right>
+        mdi-food
+      </v-icon>
+      <v-toolbar-title>
+        กินไรดี
+      </v-toolbar-title>
+
       <v-spacer></v-spacer>
-      <v-btn icon @click="showDialog = true">
-        <v-icon>mdi-plus</v-icon>
-      </v-btn> 
-      <v-btn rounded @click="randomData">
+      <v-btn rounded @click="showDialog = true">
+        <v-icon left>
+          mdi-plus
+        </v-icon>
+        add
+      </v-btn>
+      <v-btn rounded @click="randomData" class="ml-3">
         <v-icon left>
           mdi-reload
         </v-icon>
         random
       </v-btn>
       <v-menu left bottom> </v-menu>
-    </v-app-bar>
-       
+    </v-app-bar>  
     <v-container fluid fill-height>
       <v-row dense>
         <v-col cols="12" sm="6">
           <v-layout align-center justify-center>
-            <v-card dark elevation="5" color="#333333" :class="classShake">
-              <v-layout>
-                <v-card-text class="text-xl-h4">
-                  {{ randomText }}
-                </v-card-text>
-              </v-layout>
-            </v-card>
+            <v-chip
+              close-icon="mdi-food"
+              label
+              outlined
+              :class="classShake"
+              close 
+              color="#fff"
+            >
+              {{ randomText }}
+            </v-chip>
           </v-layout>
         </v-col>
         <v-col cols="12" sm="6">
-          <v-card>
+          <v-card elevation="8" shaped  color="rgb(255, 0, 0, 0)" >
             <v-data-table
               :headers="headers"
               :items="data"
               hide-default-header
               hide-default-footer
               disable-pagination
-              class="elevation-1"
+              class="elevation-1" 
               height="50vh"
             >
               <template v-slot:no-data>
-                <div class="text-caption" height="50vh">
+                <div class="text-caption" >
                   ไม่มีข้อมูล
                 </div>
               </template>
               <template v-slot:item="{ item }">
-                <tr>
-                  <td width="70%">{{ item.name }}</td>
-
+                <tr style="color:#fff" >
+                  <td width="70%">{{ item.name }}</td> 
                   <td>
-                    <v-icon class="mr-2" @click="editShowDialog(item)">
-                      mdi-comment-edit
+                    <v-icon class="mr-2" @click="editShowDialog(item)"
+                     color="#fff">
+                      mdi-comment-edit-outline
                     </v-icon>
                     <span class="ma-1"></span>
                     <v-icon @click="delData(item)"
-                      >mdi-delete-alert-outline</v-icon
+                     color="#fff"
+                      >mdi-delete-outline </v-icon
                     >
                   </td>
                 </tr>
@@ -65,9 +76,13 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container> 
+      <v-row>
+        
+      </v-row>
+     
+    </v-container>
     <v-row justify="center">
-      <v-dialog v-model="showDialog" persistent max-width="600px">
+      <v-dialog v-model="showDialog" persistent max-width="600px"  >
         <v-card>
           <v-card-title>
             <span class="headline">Add menu</span>
@@ -88,7 +103,7 @@
             </v-container>
           </v-card-text>
           <v-card-actions>
-            <v-spacer></v-spacer> 
+            <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="saveData">
               บันทึก
             </v-btn>
@@ -155,18 +170,18 @@
 </template>
 <script>
 import { httpClient } from "@/services/httpClient";
-import { vueTopprogress } from 'vue-top-progress'
-
+import { vueTopprogress } from "vue-top-progress";
+ 
 export default {
-  components: {vueTopprogress},
+  components: { vueTopprogress },
   methods: {
     loadData() {
-      this.$refs.topProgress.start()
+      this.$refs.topProgress.start();
       httpClient
         .get(`${process.env.VUE_APP_API_PATH}/api/foods/`)
         .then((response) => {
           this.data = response.data.data;
-            this.$refs.topProgress.done()
+          this.$refs.topProgress.done();
         });
     },
     setData() {
@@ -188,15 +203,12 @@ export default {
     },
     editData() {
       httpClient
-        .put(
-          `${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`,
-          {
-            id: this.tempData.id,
-            name: this.tempData.name,
-            detail: "",
-            shop_name: "",
-          }
-        )
+        .put(`${process.env.VUE_APP_API_PATH}/api/foods/${this.tempData.id}`, {
+          id: this.tempData.id,
+          name: this.tempData.name,
+          detail: "",
+          shop_name: "",
+        })
         .then(() => {
           this.editDialog = false;
           this.loadData();
@@ -253,7 +265,7 @@ export default {
       timeRandom: 20,
       classShake: "",
       snackbar: false,
-      randomText: "กด ปุ่ม Random",
+      randomText: "?????????",
       headers: [
         {
           text: "foodname ",
@@ -265,10 +277,30 @@ export default {
       tempData: [],
     };
   },
-  mounted() { 
+  mounted() {
     this.loadData();
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.vapp {
+  background-color: #4158d0;
+  background-image: linear-gradient(
+    43deg,
+    #4158d0 0%,
+    #c850c0 46%,
+    #ffcc70 100%
+  );
+}
+.theme--light.v-data-table {
+  background-color: transparent;
+}
+
+/* .theme--light.v-sheet {
+  background-color: transparent;
+} */
+ 
+
+ 
+</style>

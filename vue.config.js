@@ -1,5 +1,7 @@
+const path = require("path"); 
 
 module.exports = {
+  outputDir: path.resolve(__dirname, "../dist/random_food"),
   publicPath: process.env.NODE_ENV === 'production'
     ? '/random_food/'
     : '/',
