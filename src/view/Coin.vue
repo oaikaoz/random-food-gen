@@ -130,6 +130,7 @@ export default {
             );
             this.$refs.topProgress.done();
             // loop call api
+            document.title = `DOGE : ${responses[0].data.THB_DOGE.last} | BTC : ${responses[0].data.THB_BTC.last} `
             setTimeout(() => this.getPriceCoin(), 5000);
           })
         )
