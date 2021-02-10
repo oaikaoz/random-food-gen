@@ -103,10 +103,6 @@ export default {
         .then(
           axios.spread((...responses) => {
             
-            if((!responses[0].data.THB_BTC.last) && ( !responses[1]["data"][
-                responses[1].data.findIndex((obj) => obj.symbol == "btc_thb")
-              ].lastPrice) ) continue
-
             // data from bitkub res[0]
             this.BTC.bitkub.price = responses[0].data.THB_BTC.last;
             this.DOGE.bitkub.price = responses[0].data.THB_DOGE.last;
