@@ -34,6 +34,6 @@ const calCoin = (dogeSat, dogeBit) => {
     Profit ${result} Bath
     `)
   }
-  return  diff price < 1% 
+  return  `diff price < 1% `
 }
 export default calCoin
