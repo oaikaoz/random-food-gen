@@ -4,7 +4,7 @@
 const doge_trans_fee = 50
 const bitkub_BS_fee = 0.9975
 const satang_BS_fee = 0.998
-
+const tes = 3.22
 /**
  * function call 
  * @param {number} dogeSat 
